@@ -151,4 +151,107 @@ export class UserService {
             connection.release();
         }
     }
+
+    async getUserProfile(id: number): Promise<UserResponse> {
+        const query = `
+            SELECT 
+                u.id_users,
+                u.email,
+                u.roles_id,
+                r.roles AS role_name,
+                w.phone_number,
+                w.dpi,
+                w.department_id,
+                w.gender
+            FROM Users u
+            LEFT JOIN Roles r ON u.roles_id = r.id_roles
+            LEFT JOIN Whistleblowers w ON u.id_users = w.users_id
+            WHERE u.id_users = ?;
+        `;
+        const [rows]: any = await db.query(query, [id]);
+        if (rows.length === 0) {
+            throw new Error("Usuario no encontrado");
+        }
+        return rows[0] as UserResponse;
+    }
+
+    async updateProfile(id: number, data: CreateUserDTO): Promise<void> {
+        const connection = await db.getConnection();
+        try {
+            await connection.beginTransaction();
+
+            if (data.email) {
+                await connection.query(
+                    'UPDATE Users SET email = ? WHERE id_users = ?',
+                    [data.email, id]
+                );
+            }
+
+            await connection.query(
+                'UPDATE Whistleblowers SET gender = ?, phone_number = ?, department_id = ? WHERE users_id = ?',
+                [data.gender || null, data.phone_number || null, data.department_id || null, id]
+            );
+
+            await connection.commit();
+        } catch (error) {
+            await connection.rollback();
+            throw error;
+        } finally {
+            connection.release();
+        }
+    }
+
+    async WhistleblowerForAgent(whistleblowerId: number) {
+        const query = `
+        SELECT 
+        u.id_users,
+        u.first_name,
+        u.last_name,
+        u.email,
+        u.phone,
+        u.dpi,
+        u.gender,
+        u.department
+        FROM Users u
+        WHERE u.id_users = ?
+        `;
+        
+        const [rows]: any = await db.query(query, [whistleblowerId]);
+        
+        if (rows.length === 0) {
+            throw new Error('Denunciante no fue encontrado.');
+        }
+        
+        return rows[0];
+    }
+
+    async getUsersByRole(roleName: string, search?: string) {
+        let query = `
+        SELECT 
+        u.id_users,
+        u.first_name,
+        u.last_name,
+        u.email,
+        u.phone,
+        u.dpi,
+        u.gender,
+        u.department,
+        m.state AS agent_state
+        FROM Users u
+        JOIN Roles r ON u.roles_id = r.id_roles
+        LEFT JOIN Managers m ON u.id_users = m.users_id
+        WHERE r.role_name = ?
+        `;
+        
+        const params: any[] = [roleName];
+        
+        if (search && search.trim() !== '') {
+            query += ` AND (u.first_name LIKE ? OR u.last_name LIKE ?)`;
+            const searchTerm = `%${search.trim()}%`;
+            params.push(searchTerm, searchTerm);
+        }
+        
+        const [users]: any = await db.query(query, params);
+        return users;
+    }
 }
