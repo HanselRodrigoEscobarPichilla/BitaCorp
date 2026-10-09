@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { UsersService } from '../../../services/users.service';
+import { TokenService } from '../../../services/token.service';
 
 @Component({
   imports: [CommonModule, FormsModule],
@@ -9,21 +11,21 @@ import { Router } from '@angular/router';
   styleUrl: './administrator-profile.scss',
   templateUrl: './administrator-profile.html',
 })
-export class AdministratorProfile {
+export class AdministratorProfile implements OnInit {
 
   userData = {
-    nombre: 'Nombre Completo Apellido Completo',
-    correo: 'CorreoEjemplo@gmail.com',
+    nombre: '',
+    correo: '',
     password: '************',
-    dpi: '454390438590348',
-    departamento: 'Jutiapa'
+    dpi: '',
+    departamento: ''
   };
 
   departamentosList: string[] = [
-    'Alta Verapaz', 'Baja Verapaz', 'Chimaltenango', 'Chiquimula', 
-    'El Progreso', 'Escuintla', 'Guatemala', 'Huehuetenango', 
-    'Izabal', 'Jalapa', 'Jutiapa', 'Petén', 'Quetzaltenango', 
-    'Quiché', 'Retalhuleu', 'Sacatepéquez', 'San Marcos', 
+    'Alta Verapaz', 'Baja Verapaz', 'Chimaltenango', 'Chiquimula',
+    'El Progreso', 'Escuintla', 'Guatemala', 'Huehuetenango',
+    'Izabal', 'Jalapa', 'Jutiapa', 'Petén', 'Quetzaltenango',
+    'Quiché', 'Retalhuleu', 'Sacatepéquez', 'San Marcos',
     'Santa Rosa', 'Sololá', 'Suchitepéquez', 'Totonicapán', 'Zacapa'
   ];
 
@@ -32,18 +34,66 @@ export class AdministratorProfile {
     departamento: false
   };
 
-  constructor(private router: Router) {}
+  error: string | null = null;
+  loading = false;
+
+  constructor(private router: Router, private users: UsersService, private token: TokenService) {}
+
+  ngOnInit(): void {
+    const user = this.token.getUser();
+    if (!user) return;
+    this.loading = true;
+    this.users.getUserProfile(user.id).subscribe({
+      next: (res) => {
+        this.loading = false;
+        const u = res.data;
+        this.userData.nombre = `${u.first_name || ''} ${u.last_name || ''}`.trim();
+        this.userData.correo = u.email || '';
+        this.userData.dpi = u.dpi || '';
+        this.userData.departamento = u.department || '';
+      },
+      error: (err) => {
+        this.loading = false;
+        this.error = err?.error?.message || 'Error al cargar el perfil';
+      }
+    });
+  }
 
   toggleEdit(field: 'nombre' | 'departamento'): void {
     this.isEditing[field] = !this.isEditing[field];
   }
 
   actualizarPerfil(): void {
-    this.router.navigate(['/administrators']);
+    const user = this.token.getUser();
+    if (!user) return;
+    const parts = this.userData.nombre.trim().split(' ');
+    const first = parts.shift() || '';
+    const last = parts.join(' ');
+    this.users.updateProfile(user.id, {
+      first_name: first,
+      last_name: last,
+      email: this.userData.correo,
+      department: this.userData.departamento
+    } as any).subscribe({
+      next: () => {
+        this.isEditing.nombre = false;
+        this.isEditing.departamento = false;
+      },
+      error: (err) => (this.error = err?.error?.message || 'Error al actualizar')
+    });
   }
 
   eliminarCuenta(): void {
-    this.router.navigate(['/administrators']);
+    const user = this.token.getUser();
+    if (!user) return;
+    if (!confirm('¿Eliminar tu cuenta?')) return;
+    this.users.deleteUser(user.id).subscribe({
+      next: () => {
+        this.token.clear();
+        this.router.navigate(['/login']);
+      },
+      error: (err) => (this.error = err?.error?.message || 'Error al eliminar')
+    });
   }
 
   salir(): void {

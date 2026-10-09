@@ -6,8 +6,11 @@ export interface User {
 }
 
 export interface UserProfile{
+    first_name: string,
+    last_name: string,
     phone_number: string,
     dpi: string,
+    department: string,
     department_id: number,
     gender: string,
     State: string
@@ -18,9 +21,12 @@ export interface UserResponse{
     email: string,
     roles_id: number,
     role_name: string,
+    first_name: string,
+    last_name: string,
     phone_number: string,
     dpi: string,
     department_id: number,
+    department: string,
     gender: string,
     State: string
 }

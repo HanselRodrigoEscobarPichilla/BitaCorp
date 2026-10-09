@@ -41,12 +41,24 @@ export class WhistleblowerBinnacles {
 
   guardar(): void {
     const user = this.token.getUser();
-    if (!user) return;
     this.error = null;
+
+    if (!user) {
+      this.error = 'Sesión expirada. Inicia sesión nuevamente.';
+      return;
+    }
+
+    if (!this.form.titulo.trim() || !this.form.descripcion.trim()) {
+      this.error = 'El título y la descripción son obligatorios.';
+      return;
+    }
+
+    if (this.loading) return;
     this.loading = true;
 
     const payload = {
-      descriptions: this.form.descripcion || this.form.titulo,
+      title: this.form.titulo,
+      descriptions: this.form.descripcion,
       effects: this.form.efectos,
       place: this.form.lugar,
       date_event: this.form.fechaSucedido,

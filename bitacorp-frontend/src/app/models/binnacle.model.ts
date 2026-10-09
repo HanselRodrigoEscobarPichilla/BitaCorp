@@ -8,21 +8,25 @@ export interface Aggressor {
 export interface Evidence {
   id_evidence?: number;
   file_path: string;
+  file_type?: string;
   binnacle_id?: number;
 }
 
 export interface BinnacleBase {
   id_binnacle?: number;
+  title: string;
   descriptions: string;
   effects: string;
   place: string;
   date_event: string;
+  creation_date?: string;
   users_id: number;
   state?: string;
   manager_id?: number | null;
 }
 
 export interface CreateBinnacleDTO {
+  title: string;
   descriptions: string;
   effects: string;
   place: string;

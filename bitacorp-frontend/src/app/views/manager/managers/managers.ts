@@ -47,9 +47,9 @@ export class Managers implements OnInit {
         this.loading = false;
         this.bitacorasInicio = (res.data || []).map((b: BinnacleResponse) => ({
           id: String(b.id_binnacle),
-          titulo: b.descriptions || '',
+          titulo: b.title || '',
           autor: b.user_email || '',
-          fecha: b.date_event || '',
+          fecha: b.creation_date || b.date_event || '',
           descripcion: b.descriptions || '',
           _id: b.id_binnacle
         }));
@@ -70,9 +70,9 @@ export class Managers implements OnInit {
         this.loading = false;
         this.bitacorasHistorial = (res.data || []).map((b: BinnacleResponse) => ({
           id: String(b.id_binnacle),
-          titulo: b.descriptions || '',
+          titulo: b.title || '',
           autor: (b as any).author_email || (b as any).user_email || '',
-          fecha: b.date_event || '',
+          fecha: b.creation_date || b.date_event || '',
           descripcion: b.descriptions || '',
           estado: b.state || '',
           _id: b.id_binnacle

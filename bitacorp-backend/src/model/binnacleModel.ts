@@ -1,5 +1,6 @@
 export interface Binnacle {
     id_binnacle: number,
+    title: string,
     descriptions: string,
     effects: string,
     place: string,
@@ -10,6 +11,7 @@ export interface Binnacle {
 export interface Evidence {
     id_evidence: number,
     file_path: string,
+    file_type: string,
     binnacle_id: number
 }
 
@@ -26,7 +28,11 @@ export interface CreateBinnacleDTO extends Binnacle {
 }
 
 export interface BinnacleResponse extends Binnacle {
+    creation_date: string,
+    state: string,
+    manager_id: number | null,
     user_email: string,
+    author_email: string,
     aggressors: Aggressor[],
     evidences: Evidence[]
 }

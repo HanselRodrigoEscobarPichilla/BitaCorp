@@ -28,19 +28,24 @@ export interface WhistleblowerProfile {
 }
 
 export interface ManagerRegisterPayload {
+  first_name?: string;
+  last_name?: string;
   email: string;
   passwords: string;
   phone_number?: string;
   dpi?: string;
+  department?: string;
   department_id?: number;
   State?: string;
 }
 
 export interface AdminRegisterPayload {
+  first_name?: string;
+  last_name?: string;
   email: string;
   passwords: string;
-  phone_number?: string;
   dpi?: string;
+  department?: string;
   department_id?: number;
   State?: string;
 }

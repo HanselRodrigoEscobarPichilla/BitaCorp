@@ -82,6 +82,12 @@
           [(ngModel)]="userData.telefono" 
         />
       </div>
+
+      <div class="form-error" *ngIf="error">{{ error }}</div>
+
+      <button class="auth-submit" (click)="onRegister()" [disabled]="loading">
+        {{ loading ? 'Registrando...' : 'Registrarse' }}
+      </button>
     </div>
   </div>
 

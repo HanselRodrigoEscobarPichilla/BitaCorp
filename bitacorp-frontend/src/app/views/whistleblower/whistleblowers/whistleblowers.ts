@@ -1,12 +1,13 @@
 import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BinnacleService } from '../../../services/binnacle.service';
 import { TokenService } from '../../../services/token.service';
 import { BinnacleResponse } from '../../../models/binnacle.model';
 
 @Component({
-  imports: [CommonModule, NgIf, NgFor],
+  imports: [CommonModule, NgIf, NgFor, FormsModule],
   selector: 'app-whistleblowers',
   styleUrl: './whistleblowers.scss',
   templateUrl: './whistleblowers.html',
@@ -64,10 +65,10 @@ export class Whistleblowers implements OnInit {
         this.loading = false;
         this.bitacoras = (res.data || []).map((b: BinnacleResponse) => ({
           id: b.id_binnacle!,
-          titulo: b.descriptions || 'Sin título',
+          titulo: b.title || 'Sin título',
           descripcion: b.descriptions || '',
           estado: b.state || 'Pendiente',
-          fechaCreacion: b.date_event || ''
+          fechaCreacion: b.creation_date || b.date_event || ''
         }));
       },
       error: (err) => {

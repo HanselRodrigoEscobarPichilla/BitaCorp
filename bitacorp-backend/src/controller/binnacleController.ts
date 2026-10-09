@@ -4,6 +4,18 @@ import { BinnacleService } from '../service/binnacleService';
 export class BinnacleController {
     private binnacleService = new BinnacleService();
 
+    private mapFiles(files?: Express.Multer.File[]) {
+        if (!files || files.length === 0) return undefined;
+        return files.map(file => ({
+            file_path: `/uploads/${file.filename}`,
+            file_type: file.mimetype.startsWith('image/')
+                ? 'Imagen'
+                : file.mimetype.startsWith('video/')
+                    ? 'Video'
+                    : 'Documento'
+        }));
+    }
+
     async listBinnacle(req: Request, res: Response): Promise<void> {
         try {
             const binnacles = await this.binnacleService.listBinnacle();
@@ -13,13 +25,23 @@ export class BinnacleController {
         }
     }
 
+    private reqUser(req: Request) {
+        const user = (req as any).user;
+        return {
+            id: Number(user?.id),
+            role: String(user?.role || '').toUpperCase()
+        };
+    }
+
     async createBinnacle(req: Request, res: Response): Promise<void> {
         try {
             const payload = JSON.parse(req.body.data || '{}');
+            payload.users_id = this.reqUser(req).id;
             const files = req.files as Express.Multer.File[];
 
-            if (files && files.length > 0) {
-                payload.evidences = files.map(file => ({ file_path: file.path }));
+            const mapped = this.mapFiles(files);
+            if (mapped) {
+                payload.evidences = mapped;
             }
 
             await this.binnacleService.createBinnacle(payload);
@@ -38,16 +60,26 @@ export class BinnacleController {
             }
 
             let payload = req.body;
-        if (req.body.data) {
-            payload = JSON.parse(req.body.data);
-        }
+            if (req.body.data) {
+                payload = JSON.parse(req.body.data);
+            }
 
-        const files = req.files as Express.Multer.File[];
-        if (files && files.length > 0) {
-            payload.evidences = files.map(file => ({ file_path: file.path }));
-        }
+            const files = req.files as Express.Multer.File[];
+            const mapped = this.mapFiles(files);
+            if (mapped) {
+                payload.evidences = mapped;
+            }
 
-            await this.binnacleService.updateBinnacle(id, req.body);
+            const { id: reqUserId, role } = this.reqUser(req);
+            if (role !== 'ADMINISTRADOR') {
+                const binnacle = await this.binnacleService.getBinnacleById(id);
+                if (Number(binnacle.users_id) !== reqUserId) {
+                    res.status(403).json({ success: false, message: 'No tienes permisos sobre esta bitácora.' });
+                    return;
+                }
+            }
+
+            await this.binnacleService.updateBinnacle(id, payload);
             res.status(200).json({ success: true, message: 'Bitácora actualizada.' });
         } catch (error: any) {
             res.status(400).json({ success: false, message: error.message || 'Error al actualizar.' });
@@ -60,6 +92,15 @@ export class BinnacleController {
             if (isNaN(id)) {
                 res.status(400).json({ success: false, message: 'ID inválido.' });
                 return;
+            }
+
+            const { id: reqUserId, role } = this.reqUser(req);
+            if (role !== 'ADMINISTRADOR') {
+                const binnacle = await this.binnacleService.getBinnacleById(id);
+                if (Number(binnacle.users_id) !== reqUserId) {
+                    res.status(403).json({ success: false, message: 'No tienes permisos sobre esta bitácora.' });
+                    return;
+                }
             }
 
             await this.binnacleService.deleteBinnacle(id);
@@ -79,6 +120,12 @@ export class BinnacleController {
                 return;
             }
 
+            const { id: reqUserId, role } = this.reqUser(req);
+            if (role === 'DENUNCIANTE' && Number(reqUserId) !== userId) {
+                res.status(403).json({ success: false, message: 'No tienes permisos sobre estas bitácoras.' });
+                return;
+            }
+
             const binnacles = await this.binnacleService.listBinnaclesUser(userId, search);
             res.status(200).json({ success: true, data: binnacles });
         } catch (error: any) {
@@ -94,6 +141,11 @@ export class BinnacleController {
             return;
         }
             const binnacle = await this.binnacleService.getBinnacleById(id);
+            const { id: reqUserId, role } = this.reqUser(req);
+            if (role === 'DENUNCIANTE' && Number(binnacle.users_id) !== reqUserId) {
+                res.status(403).json({ success: false, message: 'No tienes permisos sobre esta bitácora.' });
+                return;
+            }
             res.status(200).json({ success: true, data: binnacle });
         } catch (error: any) {
             res.status(404).json({ success: false, message: error.message || 'Error al obtener.' });

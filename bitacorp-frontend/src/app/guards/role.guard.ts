@@ -13,8 +13,8 @@ export const roleGuard: CanActivateFn = (route: ActivatedRouteSnapshot) => {
   }
 
   const allowed = route.data?.['roles'] as string[] | undefined;
-  if (allowed && allowed.length > 0 && !allowed.includes(user.role)) {
-    const role = user.role;
+  const role = (user.role || '').toUpperCase();
+  if (allowed && allowed.length > 0 && !allowed.includes(role)) {
     if (role === 'ENCARGADO') router.navigate(['/managers']);
     else if (role === 'ADMINISTRADOR') router.navigate(['/administrators']);
     else router.navigate(['/whistleblowers']);

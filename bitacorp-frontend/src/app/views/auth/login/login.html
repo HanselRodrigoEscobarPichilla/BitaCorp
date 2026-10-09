@@ -25,6 +25,12 @@
         />
       </div>
 
+      <div class="form-error" *ngIf="error">{{ error }}</div>
+
+      <button class="auth-submit" (click)="onLogin()" [disabled]="loading">
+        {{ loading ? 'Ingresando...' : 'Ingresar' }}
+      </button>
+
       <div class="auth-footer-text">
         <span>No tienes cuenta </span>
         <a routerLink="/register" class="register-link">¿Registrarse?</a>

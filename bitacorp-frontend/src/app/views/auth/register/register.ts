@@ -54,8 +54,18 @@ export class Register {
 
     this.auth.registerWhistleblower(payload).subscribe({
       next: () => {
-        this.loading = false;
-        this.router.navigate(['/login']);
+        this.auth
+          .login({ email: this.userData.correo.trim(), password: this.userData.password })
+          .subscribe({
+            next: () => {
+              this.loading = false;
+              this.router.navigate(['/whistleblowers']);
+            },
+            error: () => {
+              this.loading = false;
+              this.router.navigate(['/login']);
+            }
+          });
       },
       error: (err) => {
         this.loading = false;

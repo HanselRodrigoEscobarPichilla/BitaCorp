@@ -40,7 +40,7 @@ export class WhistleblowerBinnaclesUpdate implements OnInit {
       next: (res) => {
         this.loading = false;
         const b: BinnacleResponse = res.data;
-        this.form.titulo = b.descriptions || '';
+        this.form.titulo = b.title || '';
         this.form.descripcion = b.descriptions || '';
         this.form.efectos = b.effects || '';
         this.form.lugar = b.place || '';
@@ -65,9 +65,15 @@ export class WhistleblowerBinnaclesUpdate implements OnInit {
 
   actualizar(): void {
     this.error = null;
+    if (!this.form.titulo.trim() || !this.form.descripcion.trim()) {
+      this.error = 'El título y la descripción son obligatorios.';
+      return;
+    }
+    if (this.loading) return;
     this.loading = true;
     const payload: any = {
-      descriptions: this.form.descripcion || this.form.titulo,
+      title: this.form.titulo,
+      descriptions: this.form.descripcion,
       effects: this.form.efectos,
       place: this.form.lugar,
       date_event: this.form.fechaSucedido,

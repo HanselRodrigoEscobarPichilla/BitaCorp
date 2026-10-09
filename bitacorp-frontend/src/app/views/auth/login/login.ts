@@ -30,7 +30,7 @@ export class Login {
     this.auth.login(payload).subscribe({
       next: (res) => {
         this.loading = false;
-        const role = res.user.role;
+        const role = (res.user.role || '').toUpperCase();
         if (role === 'ENCARGADO') {
           this.router.navigate(['/managers']);
         } else if (role === 'ADMINISTRADOR') {

@@ -17,24 +17,87 @@ import { ManagerWhistleblowerProfile } from './views/manager/manager-whistleblow
 import { Administrators } from './views/administrator/administrators/administrators';
 import { AdministratorProfile } from './views/administrator/administrator-profile/administrator-profile';
 
+import { authGuard } from './guards/auth.guard';
+import { roleGuard } from './guards/role.guard';
+
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
 
   { path: 'login', component: Login },
   { path: 'register', component: Register },
-  
-  { path: 'whistleblowers', component: Whistleblowers },
-  { path: 'whistleblowers/crear', component: WhistleblowerBinnacles },
-  { path: 'whistleblowers/editar/:id', component: WhistleblowerBinnaclesUpdate },
-  { path: 'whistleblowers/ver/:id', component: WhistleblowerBinnaclesCheck },
-  { path: 'whistleblowers/perfil', component: WhistleblowerProfile },
 
-  { path: 'managers', component: Managers },
-  { path: 'managers/ver-inicio/:id', component: ManagerBinnaclesCheck },
-  { path: 'managers/ver-historial/:id', component: ManagerBinnaclesCheck },
-  { path: 'managers/perfil', component: ManagerProfile },
-  { path: 'managers/denunciante-perfil', component: ManagerWhistleblowerProfile },
+  {
+    path: 'whistleblowers',
+    component: Whistleblowers,
+    canActivate: [authGuard, roleGuard],
+    data: { roles: ['DENUNCIANTE'] }
+  },
+  {
+    path: 'whistleblowers/crear',
+    component: WhistleblowerBinnacles,
+    canActivate: [authGuard, roleGuard],
+    data: { roles: ['DENUNCIANTE'] }
+  },
+  {
+    path: 'whistleblowers/editar/:id',
+    component: WhistleblowerBinnaclesUpdate,
+    canActivate: [authGuard, roleGuard],
+    data: { roles: ['DENUNCIANTE'] }
+  },
+  {
+    path: 'whistleblowers/ver/:id',
+    component: WhistleblowerBinnaclesCheck,
+    canActivate: [authGuard, roleGuard],
+    data: { roles: ['DENUNCIANTE'] }
+  },
+  {
+    path: 'whistleblowers/perfil',
+    component: WhistleblowerProfile,
+    canActivate: [authGuard, roleGuard],
+    data: { roles: ['DENUNCIANTE'] }
+  },
 
-  { path: 'administrators', component: Administrators },
-  { path: 'administrators/perfil', component: AdministratorProfile }
+  {
+    path: 'managers',
+    component: Managers,
+    canActivate: [authGuard, roleGuard],
+    data: { roles: ['ENCARGADO'] }
+  },
+  {
+    path: 'managers/ver-inicio/:id',
+    component: ManagerBinnaclesCheck,
+    canActivate: [authGuard, roleGuard],
+    data: { roles: ['ENCARGADO'] }
+  },
+  {
+    path: 'managers/ver-historial/:id',
+    component: ManagerBinnaclesCheck,
+    canActivate: [authGuard, roleGuard],
+    data: { roles: ['ENCARGADO'] }
+  },
+  {
+    path: 'managers/perfil',
+    component: ManagerProfile,
+    canActivate: [authGuard, roleGuard],
+    data: { roles: ['ENCARGADO'] }
+  },
+  {
+    path: 'managers/denunciante-perfil',
+    component: ManagerWhistleblowerProfile,
+    canActivate: [authGuard, roleGuard],
+    data: { roles: ['ENCARGADO'] }
+  },
+
+  {
+    path: 'administrators',
+    component: Administrators,
+    canActivate: [authGuard, roleGuard],
+    data: { roles: ['ADMINISTRADOR'] }
+  },
+  {
+    path: 'administrators/perfil',
+    component: AdministratorProfile,
+    canActivate: [authGuard, roleGuard],
+    data: { roles: ['ADMINISTRADOR'] }
+  }
 ];

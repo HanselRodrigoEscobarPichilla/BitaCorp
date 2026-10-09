@@ -15,6 +15,8 @@
       <input type="text" class="input-field" placeholder="Fecha de lo sucedido..." [(ngModel)]="form.fechaSucedido" />
     </div>
 
+    <div class="form-error" *ngIf="error">{{ error }}</div>
+
     <div class="section-block">
       <h3>Evidencias</h3>
       <div class="evidences-box">
@@ -63,7 +65,7 @@
       
 
     <div class="card-footer">
-      <button class="card-btn" (click)="actualizar()">Actualizar</button>
+      <button class="card-btn" (click)="actualizar()" [disabled]="loading">{{ loading ? 'Guardando...' : 'Actualizar' }}</button>
       <button class="card-btn" (click)="cancelar()">Cancelar</button>
     </div>
   </div>

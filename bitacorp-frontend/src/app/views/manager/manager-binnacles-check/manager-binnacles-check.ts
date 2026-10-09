@@ -60,9 +60,9 @@ export class ManagerBinnaclesCheck implements OnInit {
         this.loading = false;
         const b: BinnacleResponse = res.data;
         this.authorId = b.users_id;
-        this.binnacleData.titulo = b.descriptions || '';
+        this.binnacleData.titulo = b.title || '';
         this.binnacleData.autor = b.user_email || (b as any).author_email || '';
-        this.binnacleData.fecha = b.date_event || '';
+        this.binnacleData.fecha = b.creation_date || b.date_event || '';
         this.binnacleData.descripcion = b.descriptions || '';
         this.binnacleData.efectos = b.effects || '';
         this.binnacleData.lugar = b.place || '';

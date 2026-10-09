@@ -39,7 +39,7 @@ export class WhistleblowerBinnaclesCheck implements OnInit {
       next: (res) => {
         this.loading = false;
         const b: BinnacleResponse = res.data;
-        this.data.titulo = b.descriptions || '';
+        this.data.titulo = b.title || '';
         this.data.descripcion = b.descriptions || '';
         this.data.efectos = b.effects || '';
         this.data.lugar = b.place || '';

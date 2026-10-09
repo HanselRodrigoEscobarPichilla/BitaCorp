@@ -24,7 +24,8 @@ export const verifyToken = (req: Request, res: Response, next: NextFunction): vo
 export const authorizeRoles = (...allowedRoles: string[]) => {
     return (req: Request, res: Response, next: NextFunction): void => {
         const user = (req as any).user;
-        if (!user || !allowedRoles.includes(user.role)) {
+        const role = user?.role ? String(user.role).toUpperCase() : '';
+        if (!user || !allowedRoles.some((r) => r.toUpperCase() === role)) {
             res.status(403).json({ success: false, message: 'No tienes permisos para realizar esta acción.' });
             return;
         }
