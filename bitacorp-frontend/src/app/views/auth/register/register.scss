@@ -1,0 +1,121 @@
+@import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@700&family=Playfair+Display:ital,wght@0,700;1,400&display=swap');
+
+.auth-container {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #e3f2fd;
+  font-family: 'Garet', sans-serif;
+
+  .auth-left-panel {
+    width: 50%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 40px;
+    box-sizing: border-box;
+
+    .brand-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 3.5rem;
+      color: #1d00a8;
+      margin: 0 0 16px 0;
+      font-weight: 700;
+    }
+
+    .auth-card {
+      background-color: #38b6ff;
+      border-radius: 20px;
+      padding: 24px 32px;
+      width: 100%;
+      max-width: 440px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      box-shadow: 0 8px 24px rgba(56, 182, 255, 0.3);
+
+      .card-title {
+        font-family: 'League Spartan', sans-serif;
+        font-size: 2.5rem;
+        color: #1d00a8;
+        margin: 0 0 6px 0;
+        text-align: center;
+        font-weight: 700;
+      }
+
+      .grid-row {
+        display: flex;
+        gap: 16px;
+
+        .half {
+          flex: 1;
+        }
+      }
+
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+
+        label {
+          color: #1d00a8;
+          font-size: 1.15rem;
+          font-weight: 500;
+        }
+
+        .auth-input {
+          background-color: #72dbf5;
+          border: none;
+          border-radius: 16px;
+          padding: 8px 16px;
+          color: #1d00a8;
+          font-size: 0.95rem;
+          font-family: 'Garet', sans-serif;
+          outline: none;
+
+          &::placeholder {
+            color: #1d00a8;
+            opacity: 0.6;
+          }
+
+          &.select-input {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231d00a8' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            background-size: 16px;
+
+            option {
+              background-color: #ffffff;
+              color: #1d00a8;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .divider-line {
+    width: 6px;
+    height: 100%;
+    background: linear-gradient(180deg, #72dbf5 0%, #38b6ff 50%, #5952e8 100%);
+    opacity: 0.85;
+    flex-shrink: 0;
+  }
+
+  .auth-right-panel {
+    width: 50%;
+    height: 100%;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+
+    &.register-bg {
+      background-image: url('/assets/images/register-documents.jpg');
+    }
+  }
+}

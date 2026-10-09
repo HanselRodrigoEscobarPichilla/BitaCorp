@@ -1,0 +1,82 @@
+<div class="managers-layout">
+  <aside class="sidebar">
+    <button 
+      class="nav-btn" 
+      [class.active]="activeTab === 'inicio'"
+      (click)="setTab('inicio')"
+    >
+      Inicio
+    </button>
+    <button 
+      class="nav-btn" 
+      [class.active]="activeTab === 'historial'"
+      (click)="setTab('historial')"
+    >
+      Historial
+    </button>
+  </aside>
+
+  <main class="content-area">
+    <div class="search-bar-container">
+      <div class="search-input-wrapper">
+        <input 
+          type="text" 
+          placeholder="Buscar..." 
+          [(ngModel)]="searchQuery" 
+        />
+        <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+      </div>
+    </div>
+
+    <div class="binnacles-list" *ngIf="activeTab === 'inicio'">
+      <div 
+        class="binnacle-card" 
+        *ngFor="let item of bitacorasInicio"
+        (click)="verBitacoraInicio(item.id)"
+      >
+        <div class="card-header">
+          <span class="title-badge">{{ item.titulo }}</span>
+          <div class="meta-badges">
+            <button class="author-badge" (click)="verPerfilAutor($event, item.autor)">
+              Autor: {{ item.autor }}
+            </button>
+            <span class="date-badge">{{ item.fecha }}</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <p class="description">{{ item.descripcion }}</p>
+        </div>
+        <div class="card-footer">
+          <button class="action-btn" (click)="tomarCasoDirecto($event, item.id)">Tomar caso</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="binnacles-list" *ngIf="activeTab === 'historial'">
+      <div 
+        class="binnacle-card" 
+        *ngFor="let item of bitacorasHistorial"
+        (click)="verBitacoraHistorial(item.id)"
+      >
+        <div class="card-header">
+          <span class="title-badge">{{ item.titulo }}</span>
+          <div class="meta-badges">
+            <button class="author-badge" (click)="verPerfilAutor($event, item.autor)">
+              Autor: {{ item.autor }}
+            </button>
+            <span class="date-badge">{{ item.fecha }}</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <p class="description">{{ item.descripcion }}</p>
+        </div>
+        <div class="card-footer">
+          <span class="status-badge">Estado: {{ item.estado }}</span>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

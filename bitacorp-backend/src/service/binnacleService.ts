@@ -43,6 +43,45 @@ export class BinnacleService {
         return binnacles as BinnacleResponse[];
     }
 
+    async listBinnaclesUser(userId: number, search?: string): Promise<BinnacleResponse[]> {
+        let query = `
+        SELECT 
+            b.id_binnacle,
+            b.descriptions,
+            b.effects,
+            b.place,
+            b.date_event,
+            b.users_id
+        FROM Binnacle b
+        WHERE b.users_id = ?
+    `;
+
+    const params: any[] = [userId];
+
+        if (search && search.trim() !== '') {
+        query += ` AND b.descriptions LIKE ?`;
+        params.push(`%${search.trim()}%`);
+    }
+
+        const [binnacles]: any = await db.query(query, params);
+
+        for (const binnacle of binnacles) {
+        const [aggressors]: any = await db.query(
+            'SELECT id_aggressors, aggressors_type, description_aggressors FROM Aggressors WHERE binnacle_id = ?',
+            [binnacle.id_binnacle]
+        );
+        const [evidences]: any = await db.query(
+            'SELECT id_evidence, file_path FROM Evidence WHERE binnacle_id = ?',
+            [binnacle.id_binnacle]
+        );
+
+        binnacle.aggressors = aggressors;
+        binnacle.evidences = evidences;
+    }
+
+        return binnacles as BinnacleResponse[];
+    }
+
     async createBinnacle(data: CreateBinnacleDTO): Promise<void> {
         this.validateBinnacle(data);
 
@@ -137,5 +176,152 @@ export class BinnacleService {
         }
 
         await db.query('DELETE FROM Binnacle WHERE id_binnacle = ?', [id]);
+    }
+
+    async getBinnacleById(id: number): Promise<BinnacleResponse> {
+    const query = `
+        SELECT 
+            b.id_binnacle,
+            b.descriptions,
+            b.effects,
+            b.place,
+            b.date_event,
+            b.users_id
+        FROM Binnacle b
+        WHERE b.id_binnacle = ?
+    `;
+
+    const [binnacles]: any = await db.query(query, [id]);
+    if (binnacles.length === 0) {
+        throw new Error("Bitácora no encontrada.");
+    }
+
+        const binnacle = binnacles[0];
+
+        const [aggressors]: any = await db.query(
+            'SELECT id_aggressors, aggressors_type, description_aggressors FROM Aggressors WHERE binnacle_id = ?',
+            [id]
+        );
+        
+        const [evidences]: any = await db.query(
+            'SELECT id_evidence, file_path FROM Evidence WHERE binnacle_id = ?',
+            [id]
+        );
+        
+        binnacle.aggressors = aggressors;
+        binnacle.evidences = evidences;
+        
+        return binnacle as BinnacleResponse;
+    
+    }
+
+    async listBinnaclesManager(search?: string): Promise<BinnacleResponse[]> {
+    let query = `
+        SELECT 
+            b.id_binnacle,
+            b.descriptions,
+            b.effects,
+            b.place,
+            b.date_event,
+            b.users_id,
+            b.state,
+            u.email AS author_email
+        FROM Binnacle b
+        JOIN Users u ON b.users_id = u.id_users
+        WHERE b.manager_id IS NULL AND (b.state = 'Pendiente' OR b.state = 'En revision')
+    `;
+    const params: any[] = [];
+
+    if (search && search.trim() !== '') {
+        query += ` AND b.descriptions LIKE ?`;
+        params.push(`%${search.trim()}%`);
+    }
+
+        const [binnacles]: any = await db.query(query, params);
+        
+        for (const binnacle of binnacles) {
+            const [aggressors]: any = await db.query(
+                'SELECT id_aggressors, aggressors_type, description_aggressors FROM Aggressors WHERE binnacle_id = ?',
+                [binnacle.id_binnacle]
+            );
+            const [evidences]: any = await db.query(
+                'SELECT id_evidence, file_path FROM Evidence WHERE binnacle_id = ?',
+                [binnacle.id_binnacle]
+            );
+            binnacle.aggressors = aggressors;
+            binnacle.evidences = evidences;
+        }
+        
+        return binnacles;
+    }
+
+    async inReview(binnacleId: number): Promise<void> {
+        await db.query(
+            "UPDATE Binnacle SET state = 'En revision' WHERE id_binnacle = ? AND state = 'Pendiente'",
+            [binnacleId]
+        );
+    }
+    
+    async takeCase(binnacleId: number, managerId: number): Promise<void> {
+
+        const [activeCases]: any = await db.query(
+        "SELECT COUNT(*) as count FROM Binnacle WHERE manager_id = ? AND state = 'En proceso'",
+        [managerId]
+    );
+
+    if (activeCases[0].count >= 5) {
+        throw new Error("Has alcanzado el límite máximo de 5 casos activos simultáneos.");
+    }
+    
+        const [binnacle]: any = await db.query(
+            "SELECT manager_id, state FROM Binnacle WHERE id_binnacle = ?",
+            [binnacleId]
+        );
+
+        if (binnacle.length === 0) throw new Error("La bitácora no existe.");
+        if (binnacle[0].manager_id !== null) throw new Error("Este caso ya fue tomado por otro agente.");
+    
+        await db.query(
+            "UPDATE Binnacle SET manager_id = ?, state = 'En proceso' WHERE id_binnacle = ?",
+            [managerId, binnacleId]
+        );
+    }
+
+    async cancelCase(binnacleId: number, managerId: number): Promise<void> {
+        await db.query(
+            "UPDATE Binnacle SET manager_id = NULL, state = 'En revision' WHERE id_binnacle = ? AND manager_id = ?",
+            [binnacleId, managerId]
+        );
+    }
+
+    async resolveCase(binnacleId: number, managerId: number): Promise<void> {
+        await db.query(
+            "UPDATE Binnacle SET state = 'Resuelto' WHERE id_binnacle = ? AND manager_id = ?",
+            [binnacleId, managerId]
+        );
+    }
+
+    async listBinnaclesManagerHistory(managerId: number, search?: string): Promise<BinnacleResponse[]> {
+        let query = `
+        SELECT 
+        b.id_binnacle,
+        b.descriptions,
+        b.effects,
+        b.place,
+        b.date_event,
+        b.users_id,
+        b.state
+        FROM Binnacle b
+        WHERE b.manager_id = ?
+    `;
+    const params: any[] = [managerId];
+    
+    if (search && search.trim() !== '') {
+        query += ` AND b.descriptions LIKE ?`;
+        params.push(`%${search.trim()}%`);
+    }
+    
+        const [binnacles]: any = await db.query(query, params);
+        return binnacles;
     }
 }

@@ -1,0 +1,90 @@
+<div class="profile-container">
+  <div class="profile-card">
+    <div class="profile-row header-row">
+      <div class="avatar-circle">NA</div>
+      <div class="row-content">
+        <input 
+          *ngIf="isEditing.nombre; else viewNombre" 
+          type="text" 
+          class="edit-input" 
+          [(ngModel)]="userData.nombre" 
+        />
+        <ng-template #viewNombre>
+          <span class="field-value header-value">{{ userData.nombre }}</span>
+        </ng-template>
+      </div>
+      <button class="edit-btn" (click)="toggleEdit('nombre')">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 20h9"></path>
+          <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+        </svg>
+      </button>
+    </div>
+
+    <div class="profile-row">
+      <span class="field-label">Correo:</span>
+      <span class="field-value">{{ userData.correo }}</span>
+    </div>
+
+    <div class="profile-row">
+      <span class="field-label">Contraseña:</span>
+      <span class="field-value">{{ userData.password }}</span>
+    </div>
+
+    <div class="profile-row">
+      <span class="field-label">Numero Telefonico:</span>
+      <div class="row-content">
+        <input 
+          *ngIf="isEditing.telefono; else viewTelefono" 
+          type="text" 
+          class="edit-input" 
+          [(ngModel)]="userData.telefono" 
+        />
+        <ng-template #viewTelefono>
+          <span class="field-value">{{ userData.telefono }}</span>
+        </ng-template>
+      </div>
+      <button class="edit-btn" (click)="toggleEdit('telefono')">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 20h9"></path>
+          <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+        </svg>
+      </button>
+    </div>
+
+    <div class="profile-row">
+      <span class="field-label">DPI:</span>
+      <span class="field-value">{{ userData.dpi }}</span>
+    </div>
+
+    <div class="profile-row">
+      <span class="field-label">Departamento:</span>
+      <div class="row-content">
+        <select 
+          *ngIf="isEditing.departamento; else viewDepartamento" 
+          class="edit-select" 
+          [(ngModel)]="userData.departamento"
+        >
+          <option *ngFor="let option of departamentosList" [value]="option">
+            {{ option }}
+          </option>
+        </select>
+        <ng-template #viewDepartamento>
+          <span class="field-value">{{ userData.departamento }}</span>
+        </ng-template>
+      </div>
+      <button class="edit-btn" (click)="toggleEdit('departamento')">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 20h9"></path>
+          <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="action-buttons">
+    <button class="action-btn" (click)="actualizarPerfil()">Actualizar Perfil</button>
+    <button class="action-btn" (click)="eliminarCuenta()">Eliminar cuenta</button>
+    <button class="action-btn" (click)="salir()">Salir</button>
+  </div>
+</div>

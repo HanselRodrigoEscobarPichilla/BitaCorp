@@ -1,0 +1,24 @@
+.footer {
+  background-color: #1d00a8;
+  padding: 40px 60px 50px 60px;
+  width: 100%;
+
+  .footer-content {
+    max-width: 1200px;
+    margin: 0;
+
+    .copyright-text {
+      color: #38b6ff;
+      font-size: 0.95rem;
+      font-weight: 400;
+      margin-bottom: 8px;
+    }
+
+    .footer-line {
+      border: none;
+      height: 1.5px;
+      background-color: #38b6ff;
+      width: 100%;
+    }
+  }
+}

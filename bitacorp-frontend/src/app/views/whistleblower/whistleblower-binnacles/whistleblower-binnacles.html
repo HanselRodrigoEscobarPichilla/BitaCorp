@@ -1,0 +1,48 @@
+<div class="create-container">
+  <div class="create-card">
+    <div class="card-header">
+      <input type="text" class="input-title-badge" placeholder="Titulo..." [(ngModel)]="form.titulo" />
+      <div class="meta-badges">
+        <span class="status-badge">Estado: Pendiente</span>
+        <span class="date-badge">Fecha creacion</span>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <textarea class="input-area" placeholder="Descripción..." [(ngModel)]="form.descripcion"></textarea>
+      <input type="text" class="input-field" placeholder="Efectos..." [(ngModel)]="form.efectos" />
+      <input type="text" class="input-field" placeholder="Lugar..." [(ngModel)]="form.lugar" />
+      <input type="text" class="input-field" placeholder="Fecha de lo sucedido..." [(ngModel)]="form.fechaSucedido" />
+    </div>
+
+    <div class="section-block">
+      <h3>Evidencias</h3>
+      <div class="upload-box" (click)="fileInput.click()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="17 8 12 3 7 8"></polyline>
+          <line x1="12" y1="3" x2="12" y2="15"></line>
+        </svg>
+        <span>Subir archivo</span>
+        <input #fileInput type="file" multiple (change)="onFileSelected($event)" style="display:none">
+      </div>
+    </div>
+
+    <div class="section-block">
+  <h3>Agresores</h3>
+  <select class="input-field select-field" [(ngModel)]="form.tipoAgresor">
+    <option value="" disabled selected hidden>Tipo de agresor...</option>
+    <option value="Una persona">Una persona</option>
+    <option value="Un grupo">Un grupo</option>
+    <option value="Una organizacion">Una organizacion</option>
+  </select>
+  <textarea class="input-area small-area" placeholder="Descripcion del agresor: nombre, pronombre, aspecto, físico o etc..." [(ngModel)]="form.descripcionAgresor"></textarea>
+</div>
+      
+
+    <div class="card-footer">
+      <button class="card-btn" (click)="guardar()">Guardar</button>
+      <button class="card-btn" (click)="cancelar()">Cancelar</button>
+    </div>
+  </div>
+</div>

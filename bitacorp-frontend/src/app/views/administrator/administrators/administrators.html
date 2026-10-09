@@ -1,0 +1,166 @@
+<div class="admin-layout">
+  <aside class="sidebar">
+    <button 
+      class="nav-btn" 
+      [class.active]="activeTab === 'denunciantes'"
+      (click)="setTab('denunciantes')"
+    >
+      Denunciantes
+    </button>
+    <button 
+      class="nav-btn" 
+      [class.active]="activeTab === 'agentes'"
+      (click)="setTab('agentes')"
+    >
+      Agentes
+    </button>
+    <button 
+      class="nav-btn" 
+      [class.active]="activeTab === 'administradores'"
+      (click)="setTab('administradores')"
+    >
+      Administradores
+    </button>
+    <button 
+      class="nav-btn" 
+      [class.active]="activeTab === 'registrar-agentes'"
+      (click)="setTab('registrar-agentes')"
+    >
+      Registrar Agentes
+    </button>
+    <button 
+      class="nav-btn" 
+      [class.active]="activeTab === 'registrar-administradores'"
+      (click)="setTab('registrar-administradores')"
+    >
+      Registrar Administradores
+    </button>
+  </aside>
+
+  <main class="content-area">
+    <div class="search-bar-container" *ngIf="activeTab === 'denunciantes' || activeTab === 'agentes' || activeTab === 'administradores'">
+      <div class="search-input-wrapper">
+        <input 
+          type="text" 
+          placeholder="Buscar..." 
+          [(ngModel)]="searchQuery" 
+        />
+        <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+      </div>
+    </div>
+
+    <div class="cards-list" *ngIf="activeTab === 'denunciantes'">
+      <div class="user-card" *ngFor="let item of denunciantes">
+        <div class="card-inner">
+          <div class="card-header-row">
+            <div class="avatar-circle">NA</div>
+            <span class="user-name">{{ item.nombre }}</span>
+          </div>
+          <div class="data-row">Correo: {{ item.correo }}</div>
+          <div class="data-row">Numero Telefonico: {{ item.telefono }}</div>
+          <div class="data-row">DPI: {{ item.dpi }}</div>
+          <div class="data-row">Genero: {{ item.genero }}</div>
+          <div class="data-row">Departamento: {{ item.departamento }}</div>
+        </div>
+        <div class="card-footer">
+          <button class="action-btn" (click)="eliminarDenunciante(item.id)">Eliminar</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="cards-list" *ngIf="activeTab === 'agentes'">
+      <div class="user-card" *ngFor="let item of agentes">
+        <div class="card-inner">
+          <div class="card-header-row">
+            <div class="avatar-circle">NA</div>
+            <span class="user-name">{{ item.nombre }}</span>
+          </div>
+          <div class="data-row">Correo: {{ item.correo }}</div>
+          <div class="data-row">Numero Telefonico: {{ item.telefono }}</div>
+          <div class="data-row">DPI: {{ item.dpi }}</div>
+          <div class="data-row">Estado: {{ item.estado }}</div>
+          <div class="data-row">Departamento: {{ item.departamento }}</div>
+        </div>
+        <div class="card-footer">
+          <button class="action-btn" (click)="eliminarAgente(item.id)">Eliminar</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="cards-list" *ngIf="activeTab === 'administradores'">
+      <div class="user-card" *ngFor="let item of administradores">
+        <div class="card-inner">
+          <div class="card-header-row">
+            <div class="avatar-circle">NA</div>
+            <span class="user-name">{{ item.nombre }}</span>
+          </div>
+          <div class="data-row">Correo: {{ item.correo }}</div>
+          <div class="data-row">DPI: {{ item.dpi }}</div>
+          <div class="data-row">Estado: {{ item.estado }}</div>
+          <div class="data-row">Departamento: {{ item.departamento }}</div>
+        </div>
+        <div class="card-footer">
+          <button class="action-btn" (click)="eliminarAdministrador(item.id)">Eliminar</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="register-form-container" *ngIf="activeTab === 'registrar-agentes'">
+      <div class="register-card">
+        <div class="form-row">
+          <input type="text" class="form-input" placeholder="Nombre:" [(ngModel)]="nuevoAgente.nombre" />
+        </div>
+        <div class="form-row">
+          <input type="text" class="form-input" placeholder="Apellido:" [(ngModel)]="nuevoAgente.apellido" />
+        </div>
+        <div class="form-row">
+          <input type="email" class="form-input" placeholder="Correo:" [(ngModel)]="nuevoAgente.correo" />
+        </div>
+        <div class="form-row">
+          <input type="text" class="form-input" placeholder="Numero Telefonico:" [(ngModel)]="nuevoAgente.telefono" />
+        </div>
+        <div class="form-row">
+          <input type="text" class="form-input" placeholder="DPI:" [(ngModel)]="nuevoAgente.dpi" />
+        </div>
+        <div class="form-row">
+          <select class="form-input select-input" [(ngModel)]="nuevoAgente.departamento">
+            <option value="" disabled selected hidden>Departamento:</option>
+            <option *ngFor="let dep of departamentosList" [value]="dep">{{ dep }}</option>
+          </select>
+        </div>
+        <div class="form-footer">
+          <button class="create-btn" (click)="crearAgente()">Crear</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="register-form-container" *ngIf="activeTab === 'registrar-administradores'">
+      <div class="register-card">
+        <div class="form-row">
+          <input type="text" class="form-input" placeholder="Nombre:" [(ngModel)]="nuevoAdmin.nombre" />
+        </div>
+        <div class="form-row">
+          <input type="text" class="form-input" placeholder="Apellido:" [(ngModel)]="nuevoAdmin.apellido" />
+        </div>
+        <div class="form-row">
+          <input type="email" class="form-input" placeholder="Correo:" [(ngModel)]="nuevoAdmin.correo" />
+        </div>
+        <div class="form-row">
+          <input type="text" class="form-input" placeholder="DPI:" [(ngModel)]="nuevoAdmin.dpi" />
+        </div>
+        <div class="form-row">
+          <select class="form-input select-input" [(ngModel)]="nuevoAdmin.departamento">
+            <option value="" disabled selected hidden>Departamento:</option>
+            <option *ngFor="let dep of departamentosList" [value]="dep">{{ dep }}</option>
+          </select>
+        </div>
+        <div class="form-footer">
+          <button class="create-btn" (click)="crearAdmin()">Crear</button>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

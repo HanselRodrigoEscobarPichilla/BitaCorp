@@ -1,0 +1,88 @@
+.profile-container {
+  padding: 30px;
+  background-color: #ffffff;
+  min-height: calc(100vh - 62px);
+  font-family: 'Garet', sans-serif;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  .profile-card {
+    background-color: #5952e8;
+    border-radius: 16px;
+    padding: 10px 0;
+    display: flex;
+    flex-direction: column;
+
+    .profile-row {
+      display: flex;
+      align-items: center;
+      padding: 14px 24px;
+      border-bottom: 1.5px solid #1d00a8;
+      gap: 12px;
+      min-height: 58px;
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      &.header-row {
+        gap: 16px;
+        padding-top: 18px;
+        padding-bottom: 18px;
+
+        .avatar-circle {
+          width: 54px;
+          height: 54px;
+          border-radius: 50%;
+          background-color: #8ed232;
+          color: #1d00a8;
+          font-weight: 700;
+          font-size: 1.2rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+        }
+
+        .header-value {
+          font-size: 1.5rem;
+          font-weight: 600;
+        }
+      }
+
+      .field-label {
+        color: #1d00a8;
+        font-size: 1.25rem;
+        font-weight: 500;
+        white-space: nowrap;
+      }
+
+      .field-value {
+        color: #1d00a8;
+        font-size: 1.25rem;
+        font-weight: 500;
+      }
+    }
+  }
+
+  .action-buttons {
+    display: flex;
+
+    .action-btn {
+      background-color: #38b6ff;
+      color: #1d00a8;
+      border: none;
+      border-radius: 14px;
+      padding: 10px 32px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      font-family: 'Garet', sans-serif;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #61c5ff;
+      }
+    }
+  }
+}

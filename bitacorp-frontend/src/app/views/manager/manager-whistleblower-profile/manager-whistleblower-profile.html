@@ -1,0 +1,37 @@
+<div class="profile-container">
+  <div class="profile-card">
+    <div class="profile-row header-row">
+      <div class="avatar-circle">NA</div>
+      <span class="field-value header-value">{{ userData.nombre }}</span>
+    </div>
+
+    <div class="profile-row">
+      <span class="field-label">Correo:</span>
+      <span class="field-value">{{ userData.correo }}</span>
+    </div>
+
+    <div class="profile-row">
+      <span class="field-label">Numero Telefonico:</span>
+      <span class="field-value">{{ userData.telefono }}</span>
+    </div>
+
+    <div class="profile-row">
+      <span class="field-label">DPI:</span>
+      <span class="field-value">{{ userData.dpi }}</span>
+    </div>
+
+    <div class="profile-row">
+      <span class="field-label">Genero:</span>
+      <span class="field-value">{{ userData.genero }}</span>
+    </div>
+
+    <div class="profile-row">
+      <span class="field-label">Departamento:</span>
+      <span class="field-value">{{ userData.departamento }}</span>
+    </div>
+  </div>
+
+  <div class="action-buttons">
+    <button class="action-btn" (click)="salir()">Salir</button>
+  </div>
+</div>

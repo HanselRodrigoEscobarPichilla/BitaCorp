@@ -1,0 +1,98 @@
+.header-container {
+  background-color: #38b6ff;
+  height: 60px;
+  padding: 0 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  font-family: 'Garet', sans-serif;
+  border-bottom: 2px solid #1d00a8;
+
+  .logo {
+    color: #1d00a8;
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+
+  .user-avatar-container {
+    position: relative;
+
+    .avatar-circle {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background-color: #8ed232;
+      color: #1d00a8;
+      font-weight: 700;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+
+      &.small {
+        width: 38px;
+        height: 38px;
+        font-size: 0.85rem;
+      }
+    }
+
+    .profile-dropdown {
+      position: absolute;
+      top: 50px;
+      right: 0;
+      background-color: #5952e8;
+      border-radius: 16px;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      width: 220px;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+      z-index: 100;
+
+      .user-info-card {
+        background-color: #38b6ff;
+        border-radius: 12px;
+        padding: 10px 12px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .user-details {
+          display: flex;
+          flex-direction: column;
+          color: #1d00a8;
+          font-weight: 600;
+          font-size: 0.85rem;
+          line-height: 1.2;
+        }
+      }
+
+      .dropdown-item {
+        background-color: #38b6ff;
+        color: #1d00a8;
+        border: none;
+        border-radius: 12px;
+        padding: 10px 14px;
+        font-size: 1rem;
+        font-weight: 600;
+        font-family: 'Garet', sans-serif;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+
+        &:hover {
+          background-color: #61c5ff;
+        }
+
+        svg {
+          color: #1d00a8;
+        }
+      }
+    }
+  }
+}

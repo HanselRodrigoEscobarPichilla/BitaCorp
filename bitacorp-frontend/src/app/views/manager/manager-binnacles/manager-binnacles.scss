@@ -1,0 +1,99 @@
+.binnacle-container {
+  padding: 20px;
+  background-color: #ffffff;
+  min-height: calc(100vh - 62px);
+  font-family: 'Garet', sans-serif;
+
+  .binnacle-card {
+    background-color: #5952e8;
+    border-radius: 16px;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .title-badge {
+        background-color: #38b6ff;
+        color: #1d00a8;
+        border-radius: 18px;
+        padding: 8px 20px;
+        font-size: 1.1rem;
+        font-weight: 500;
+        width: 250px;
+      }
+
+      .meta-badges {
+        display: flex;
+        gap: 10px;
+
+        .author-badge {
+          background-color: #38b6ff;
+          color: #1d00a8;
+          border: none;
+          padding: 6px 16px;
+          border-radius: 14px;
+          font-size: 0.9rem;
+          font-weight: 500;
+          font-family: 'Garet', sans-serif;
+          cursor: pointer;
+
+          &:hover {
+            background-color: #61c5ff;
+          }
+        }
+
+        .date-badge {
+          background-color: #38b6ff;
+          color: #1d00a8;
+          padding: 6px 16px;
+          border-radius: 14px;
+          font-size: 0.9rem;
+          font-weight: 500;
+        }
+      }
+    }
+
+    .form-section {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
+      .read-box {
+        background-color: #38b6ff;
+        border-radius: 14px;
+        padding: 12px 18px;
+        color: #1d00a8;
+        font-size: 1rem;
+
+        &.description-box {
+          min-height: 120px;
+        }
+      }
+    }
+
+    .section-block {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
+      h3 {
+        color: #1d00a8;
+        font-size: 1.3rem;
+        font-weight: 600;
+        margin: 5px 0 0 0;
+      }
+
+      .evidences-box {
+        background-color: #38b6ff;
+        border-radius: 16px;
+        padding: 16px 20px;
+        min-height: 120px;
+      }
+    }
+  }
+}

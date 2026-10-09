@@ -1,0 +1,42 @@
+<div class="auth-container">
+  <div class="auth-left-panel">
+    <h1 class="brand-title">BitaCrop</h1>
+
+    <div class="auth-card">
+      <h2 class="card-title">Login</h2>
+
+      <div class="form-group">
+        <label>Correo</label>
+        <input 
+          type="email" 
+          class="auth-input" 
+          placeholder="nombre@gmail.com..." 
+          [(ngModel)]="credentials.correo" 
+        />
+      </div>
+
+      <div class="form-group">
+        <label>Contraseña</label>
+        <input 
+          type="password" 
+          class="auth-input" 
+          placeholder="********" 
+          [(ngModel)]="credentials.password" 
+        />
+      </div>
+
+      <div class="auth-footer-text">
+        <span>No tienes cuenta </span>
+        <a routerLink="/register" class="register-link">¿Registrarse?</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider-line"></div>
+
+  <div class="auth-right-panel login-bg">
+    <div class="overlay-text">
+      Crea <span class="highlight">bitacoras</span> sobre casos de discriminación con seguimiento del caso
+    </div>
+  </div>
+</div>

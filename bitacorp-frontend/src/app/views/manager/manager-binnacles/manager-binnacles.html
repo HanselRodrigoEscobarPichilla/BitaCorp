@@ -1,0 +1,25 @@
+<div class="binnacle-container">
+  <div class="binnacle-card">
+    <div class="card-header">
+      <span class="title-badge">{{ binnacleData.titulo }}</span>
+      <div class="meta-badges">
+        <button class="author-badge" (click)="verPerfilAutor()">
+          Autor: {{ binnacleData.autor }}
+        </button>
+        <span class="date-badge">{{ binnacleData.fecha }}</span>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <div class="read-box description-box">{{ binnacleData.descripcion }}</div>
+      <div class="read-box">{{ binnacleData.efectos }}</div>
+      <div class="read-box">{{ binnacleData.lugar }}</div>
+      <div class="read-box">{{ binnacleData.fechaSucedido }}</div>
+    </div>
+
+    <div class="section-block">
+      <h3>Evidencias</h3>
+      <div class="evidences-box"></div>
+    </div>
+  </div>
+</div>

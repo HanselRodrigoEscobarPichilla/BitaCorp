@@ -1,0 +1,91 @@
+<div class="auth-container">
+  <div class="auth-left-panel">
+    <h1 class="brand-title">BitaCrop</h1>
+
+    <div class="auth-card register-card">
+      <h2 class="card-title">Registrarse</h2>
+
+      <div class="grid-row">
+        <div class="form-group half">
+          <label>Genero</label>
+          <select class="auth-input select-input" [(ngModel)]="userData.genero">
+            <option value="" disabled selected hidden></option>
+            <option *ngFor="let option of generosList" [value]="option">{{ option }}</option>
+          </select>
+        </div>
+
+        <div class="form-group half">
+          <label>Departamento</label>
+          <select class="auth-input select-input" [(ngModel)]="userData.departamento">
+            <option value="" disabled selected hidden></option>
+            <option *ngFor="let option of departamentosList" [value]="option">{{ option }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Nombre</label>
+        <input 
+          type="text" 
+          class="auth-input" 
+          placeholder="Nombre..." 
+          [(ngModel)]="userData.nombre" 
+        />
+      </div>
+
+      <div class="form-group">
+        <label>Apellido</label>
+        <input 
+          type="text" 
+          class="auth-input" 
+          placeholder="Apellido..." 
+          [(ngModel)]="userData.apellido" 
+        />
+      </div>
+
+      <div class="form-group">
+        <label>Correo</label>
+        <input 
+          type="email" 
+          class="auth-input" 
+          placeholder="nombre@gmail.com..." 
+          [(ngModel)]="userData.correo" 
+        />
+      </div>
+
+      <div class="form-group">
+        <label>Contraseña</label>
+        <input 
+          type="password" 
+          class="auth-input" 
+          placeholder="********" 
+          [(ngModel)]="userData.password" 
+        />
+      </div>
+
+      <div class="form-group">
+        <label>DPI</label>
+        <input 
+          type="text" 
+          class="auth-input" 
+          placeholder="0000000000000" 
+          [(ngModel)]="userData.dpi" 
+        />
+      </div>
+
+      <div class="form-group">
+        <label>Numero Telenico</label>
+        <input 
+          type="text" 
+          class="auth-input" 
+          placeholder="0000000000000" 
+          [(ngModel)]="userData.telefono" 
+        />
+      </div>
+    </div>
+  </div>
+
+  <div class="divider-line"></div>
+
+  <div class="auth-right-panel register-bg"></div>
+</div>

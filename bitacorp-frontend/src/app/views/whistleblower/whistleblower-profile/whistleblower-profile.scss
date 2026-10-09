@@ -1,0 +1,135 @@
+.profile-container {
+  padding: 30px;
+  background-color: #ffffff;
+  min-height: calc(100vh - 100px);
+  font-family: 'Garet', sans-serif;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  .profile-card {
+    background-color: #5952e8;
+    border-radius: 16px;
+    padding: 10px 0;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 12px rgba(89, 82, 232, 0.3);
+
+    .profile-row {
+      display: flex;
+      align-items: center;
+      padding: 14px 24px;
+      border-bottom: 1.5px solid #1d00a8;
+      gap: 12px;
+      min-height: 58px;
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      &.header-row {
+        gap: 16px;
+        padding-top: 18px;
+        padding-bottom: 18px;
+
+        .avatar-circle {
+          width: 54px;
+          height: 54px;
+          border-radius: 50%;
+          background-color: #8ed232;
+          color: #1d00a8;
+          font-weight: 700;
+          font-size: 1.2rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+        }
+
+        .header-value {
+          font-size: 1.5rem;
+          font-weight: 600;
+        }
+      }
+
+      .field-label {
+        color: #1d00a8;
+        font-size: 1.25rem;
+        font-weight: 500;
+        white-space: nowrap;
+      }
+
+      .field-value {
+        color: #1d00a8;
+        font-size: 1.25rem;
+        font-weight: 500;
+      }
+
+      .row-content {
+        display: flex;
+        align-items: center;
+        flex: 1;
+      }
+
+      .edit-input, .edit-select {
+        background-color: #38b6ff;
+        border: none;
+        border-radius: 8px;
+        padding: 6px 12px;
+        color: #1d00a8;
+        font-size: 1.1rem;
+        font-family: 'Garet', sans-serif;
+        outline: none;
+        width: 100%;
+        max-width: 320px;
+        cursor: pointer;
+
+        option {
+          background-color: #ffffff;
+          color: #1d00a8;
+        }
+      }
+
+      .edit-btn {
+        background: none;
+        border: none;
+        color: #1d00a8;
+        cursor: pointer;
+        padding: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.2s ease;
+        margin-left: auto;
+
+        &:hover {
+          transform: scale(1.15);
+        }
+      }
+    }
+  }
+
+  .action-buttons {
+    display: flex;
+    gap: 16px;
+
+    .action-btn {
+      background-color: #38b6ff;
+      color: #1d00a8;
+      border: none;
+      border-radius: 14px;
+      padding: 10px 24px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      font-family: 'Garet', sans-serif;
+      cursor: pointer;
+      transition: all 0.2s ease;
+
+      &:hover {
+        background-color: #61c5ff;
+        box-shadow: 0 0 10px rgba(56, 182, 255, 0.8);
+        transform: translateY(-1px);
+      }
+    }
+  }
+}

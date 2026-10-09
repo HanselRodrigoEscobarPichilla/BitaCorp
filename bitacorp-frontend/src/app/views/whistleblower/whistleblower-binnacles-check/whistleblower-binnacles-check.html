@@ -1,0 +1,45 @@
+<div class="binnacle-container">
+  <div class="binnacle-card">
+    <div class="card-header">
+      <input type="text" class="input-title-badge" [value]="data.titulo" disabled />
+      <div class="meta-badges">
+        <span class="status-badge">Estado: {{data.estado}}</span>
+        <span class="date-badge">{{data.fechaSucedido}}</span>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <textarea class="input-area" [value]="data.descripcion" disabled></textarea>
+      <input type="text" class="input-field" [value]="data.efectos" disabled />
+      <input type="text" class="input-field" [value]="data.lugar" disabled />
+      <input type="text" class="input-field" [value]="data.fechaSucedido" disabled />
+    </div>
+
+    <div class="section-block">
+      <h3>Evidencias</h3>
+      <div class="evidences-box read-only">
+        <div class="file-grid">
+          <div class="file-card" *ngFor="let f of data.evidences">
+            <button class="options-btn" disabled>⋮</button>
+            <div class="file-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/>
+              </svg>
+            </div>
+            <span class="file-name">{{f.file_path}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-block">
+      <h3>Agresores</h3>
+      <input type="text" class="input-field" [value]="data.tipoAgresor" disabled />
+      <textarea class="input-area small-area" [value]="data.descripcionAgresor" disabled></textarea>
+    </div>
+
+    <div class="card-footer">
+      <button class="card-btn" (click)="salir()">Salir</button>
+    </div>
+  </div>
+</div>

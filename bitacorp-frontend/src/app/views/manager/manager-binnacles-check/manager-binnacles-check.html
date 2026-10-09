@@ -1,0 +1,54 @@
+<div class="binnacle-check-container">
+  <div class="binnacle-check-card">
+    <div class="section-block">
+      <h3>Evidencias</h3>
+      <div class="evidences-box">
+        <div class="add-evidence-btn">+</div>
+        <div class="file-grid">
+          <div class="file-card">
+            <button class="options-btn">⋮</button>
+            <div class="file-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/>
+              </svg>
+            </div>
+            <span class="file-name">ArchivoEjemplo.pdf</span>
+          </div>
+
+          <div class="file-card">
+            <button class="options-btn">⋮</button>
+            <div class="file-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/>
+              </svg>
+            </div>
+            <span class="file-name">Video/Audio...pdf</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-block">
+      <h3>Agresores</h3>
+      <div class="read-box">{{ binnacleData.tipoAgresor }}</div>
+      <div class="read-box description-box">{{ binnacleData.descripcionAgresor }}</div>
+    </div>
+
+    <div class="card-footer" *ngIf="contextMode === 'inicio'">
+      <button class="card-btn" (click)="tomarCaso()">Tomar caso</button>
+      <button class="card-btn" (click)="salir()">Salir</button>
+    </div>
+
+    <div class="card-footer" *ngIf="contextMode === 'historial'">
+      <div class="select-wrapper">
+        <select class="status-select" [(ngModel)]="binnacleData.estado">
+          <option *ngFor="let option of estadosList" [value]="option">
+            Cambiar Estado: {{ option }}
+          </option>
+        </select>
+      </div>
+      <button class="card-btn" (click)="cancelarCaso()">Cancelar caso</button>
+      <button class="card-btn" (click)="salir()">Salir</button>
+    </div>
+  </div>
+</div>

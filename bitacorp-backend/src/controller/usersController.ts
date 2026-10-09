@@ -105,4 +105,61 @@ export class UserController {
             });
         }
     }
+
+    async getUserProfile(req: Request, res: Response): Promise<void> {
+        try {
+            const id = Number(req.params.id);
+            const profile = await this.userService.getUserProfile(id);
+            res.status(200).json({ success: true, data: profile });
+        } catch (error: any) {
+            res.status(404).json({ success: false, message: error.message || 'Error al obtener.' });
+        }
+    }
+
+    async updateProfile(req: Request, res: Response): Promise<void> {
+        try {
+            const id = Number(req.params.id);
+            await this.userService.updateProfile(id, req.body);
+            res.status(200).json({ success: true, message: 'Perfil actualizado.' });
+        } catch (error: any) {
+            res.status(400).json({ success: false, message: error.message || 'Error al actualizar.' });
+        }
+    }
+
+    async WhistleblowerForAgent(req: Request, res: Response): Promise<void> {
+        try {
+            const id = Number(req.params.id);
+            if (isNaN(id)) {
+                res.status(400).json({ success: false, message: 'ID de inválido.' });
+                return;
+            }
+
+            const profile = await this.userService.WhistleblowerForAgent(id);
+            res.status(200).json({ success: true, data: profile });
+        } catch (error: any) {
+            res.status(404).json({ success: false, message: error.message || 'Error al obtener datos del denunciante.' });
+        }
+    }
+
+    async getUsersByRole(req: Request, res: Response): Promise<void> {
+        try {
+            const { role } = req.params;
+            const search = req.query.search as string;
+            
+            let roleName = '';
+            
+            if (role === 'whistleblower') roleName = 'Denunciante';
+            else if (role === 'manager') roleName = 'Encargado';
+            else if (role === 'admin') roleName = 'Administrador';
+            else {
+                res.status(400).json({ success: false, message: 'Rol inválido' });
+                return;
+            }
+
+            const users = await this.userService.getUsersByRole(roleName, search);
+            res.status(200).json({ success: true, data: users });
+        } catch (error: any) {
+            res.status(500).json({ success: false, message: error.message || 'Error al obtener usuarios' });
+        }
+    }
 }
